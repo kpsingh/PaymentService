@@ -31,9 +31,9 @@ public class RazorPayPaymentGateway implements PaymentGateway {
         paymentLinkRequest.put("reference_id", orderId.toString());
         paymentLinkRequest.put("description", "Payment for order id : " + orderId);
         JSONObject customer = new JSONObject();
-        customer.put("name", "+917489485548");
-        customer.put("contact", "Sandhya Singh");
-        customer.put("email", "kpsingh1234@gmail.com");
+        customer.put("name", "+917458785548");
+        customer.put("contact", "Krishna Singh");
+        customer.put("email", "krishna@gmail.com");
         paymentLinkRequest.put("customer", customer);
         JSONObject notify = new JSONObject();
         notify.put("sms", true);
