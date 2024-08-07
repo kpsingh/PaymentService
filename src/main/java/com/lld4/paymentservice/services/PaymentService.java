@@ -13,7 +13,7 @@ public class PaymentService {
         this.paymentGateway = paymentGateway;
     }
 
-    String createPaymentLink(Long orderId) {
-        return null;
+   public String createPaymentLink(Long orderId) {
+        return paymentGateway.createPaymentLink(orderId);
     }
 }

@@ -15,43 +15,43 @@ import com.razorpay.RazorpayException;
 public class RazorPayPaymentGateway implements PaymentGateway {
 
     private RazorpayClient razorpay;
-    RazorPayPaymentGateway(RazorpayClient razorpay) {
+
+    public RazorPayPaymentGateway(RazorpayClient razorpay) {
         this.razorpay = razorpay;
     }
 
     @Override
     public String createPaymentLink(Long orderId) {
+        JSONObject paymentLinkRequest = new JSONObject();
+        paymentLinkRequest.put("amount", 1000);
+        paymentLinkRequest.put("currency", "INR");
+        //paymentLinkRequest.put("accept_partial", true);
+        // paymentLinkRequest.put("first_min_partial_amount", 100);
+        paymentLinkRequest.put("expire_by", 1754570598); // epoch time
+        paymentLinkRequest.put("reference_id", orderId.toString());
+        paymentLinkRequest.put("description", "Payment for order id : " + orderId);
+        JSONObject customer = new JSONObject();
+        customer.put("name", "+917489485548");
+        customer.put("contact", "Sandhya Singh");
+        customer.put("email", "kpsingh1234@gmail.com");
+        paymentLinkRequest.put("customer", customer);
+        JSONObject notify = new JSONObject();
+        notify.put("sms", true);
+        notify.put("email", true);
+        paymentLinkRequest.put("notify", notify);
+        paymentLinkRequest.put("reminder_enable", true);
+        JSONObject notes = new JSONObject();
+        notes.put("policy_name", "Stocks");
+        paymentLinkRequest.put("notes", notes);
+        paymentLinkRequest.put("callback_url", "https://www.scaler.com/academy/mentee-dashboard/todos");
+        paymentLinkRequest.put("callback_method", "get");
+
         try {
-
-            JSONObject paymentLinkRequest = new JSONObject();
-            paymentLinkRequest.put("amount", 1000);
-            paymentLinkRequest.put("currency", "INR");
-            paymentLinkRequest.put("accept_partial", true);
-            paymentLinkRequest.put("first_min_partial_amount", 100);
-            paymentLinkRequest.put("expire_by", 1691097057);
-            paymentLinkRequest.put("reference_id", "TS1989");
-            paymentLinkRequest.put("description", "Payment for policy no #23456");
-            JSONObject customer = new JSONObject();
-            customer.put("name", "+919000090000");
-            customer.put("contact", "Gaurav Kumar");
-            customer.put("email", "gaurav.kumar@example.com");
-            paymentLinkRequest.put("customer", customer);
-            JSONObject notify = new JSONObject();
-            notify.put("sms", true);
-            notify.put("email", true);
-            paymentLinkRequest.put("notify", notify);
-            paymentLinkRequest.put("reminder_enable", true);
-            JSONObject notes = new JSONObject();
-            notes.put("policy_name", "Jeevan Bima");
-            paymentLinkRequest.put("notes", notes);
-            paymentLinkRequest.put("callback_url", "https://example-callback-url.com/");
-            paymentLinkRequest.put("callback_method", "get");
-
             PaymentLink payment = razorpay.paymentLink.create(paymentLinkRequest);
-            return "";
+            return payment.toString();
+
         } catch (RazorpayException ex) {
             throw new RuntimeException(ex);
         }
-
     }
 }
