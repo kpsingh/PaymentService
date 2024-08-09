@@ -1,11 +1,10 @@
 package com.lld4.paymentservice.paymentgateways;
 
 import com.razorpay.PaymentLink;
-import org.springframework.beans.factory.annotation.Value;
+import com.razorpay.Transfer;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.json.JSONObject;
-import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
@@ -14,10 +13,10 @@ import com.razorpay.RazorpayException;
 @Primary
 public class RazorPayPaymentGateway implements PaymentGateway {
 
-    private RazorpayClient razorpay;
+    private RazorpayClient razorpayClient;
 
     public RazorPayPaymentGateway(RazorpayClient razorpay) {
-        this.razorpay = razorpay;
+        this.razorpayClient = razorpay;
     }
 
     @Override
@@ -47,8 +46,11 @@ public class RazorPayPaymentGateway implements PaymentGateway {
         paymentLinkRequest.put("callback_method", "get");
 
         try {
-            PaymentLink payment = razorpay.paymentLink.create(paymentLinkRequest);
-            return payment.toString();
+            // PaymentLink payment = razorpayClient.paymentLink.create(paymentLinkRequest);
+            //return payment.toString();
+
+            Transfer transfer = razorpayClient.transfers.create(paymentLinkRequest);
+            return transfer.toString();
 
         } catch (RazorpayException ex) {
             throw new RuntimeException(ex);
