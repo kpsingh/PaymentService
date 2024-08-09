@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
 
     private PaymentService paymentService;
+
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
@@ -21,9 +22,10 @@ public class PaymentController {
 
 
     @GetMapping("{id}")
-    public  String getPriceByProductId(@PathVariable("id") Long productId) {
+    public String getPriceByProductId(@PathVariable("id") Long productId) {
 
         System.out.println("Received the request form Product Microservice");
-        return "This price of the product " + productId + " is 100 INR";
+        long price = productId * 5;
+        return "This price of the product " + productId + " is " + price;
     }
 }
