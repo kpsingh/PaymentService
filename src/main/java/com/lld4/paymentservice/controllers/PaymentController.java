@@ -2,10 +2,7 @@ package com.lld4.paymentservice.controllers;
 
 import com.lld4.paymentservice.dtos.CreatePaymentLinkRequestDto;
 import com.lld4.paymentservice.services.PaymentService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payments")
@@ -20,5 +17,13 @@ public class PaymentController {
     public String createPaymetnLink(@RequestBody CreatePaymentLinkRequestDto paymentRequestDto) {
 
         return paymentService.createPaymentLink(paymentRequestDto.getOrderId());
+    }
+
+
+    @GetMapping("{id}")
+    public  String getPriceByProductId(@PathVariable("id") Long productId) {
+
+        System.out.println("Received the request form Product Microservice");
+        return "This price of the product " + productId + " is 100 INR";
     }
 }
